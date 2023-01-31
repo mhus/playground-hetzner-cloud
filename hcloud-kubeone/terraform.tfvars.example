@@ -1,0 +1,7 @@
+cluster_name = "motoko"
+
+control_plane_replicas = 1
+
+disable_kubeapi_loadbalancer = 1
+
+workers_replicas = 2
