@@ -97,20 +97,20 @@ module "kube-hetzner" {
       taints      = [],
       count       = 1
     },
-    {
-      name        = "control-plane-hel1",
-      server_type = "cpx11",
-      location    = "hel1",
-      labels      = [],
-      taints      = [],
-      count       = 1
-    }
+#    {
+#      name        = "control-plane-hel1",
+#      server_type = "cpx11",
+#      location    = "hel1",
+#      labels      = [],
+#      taints      = [],
+#      count       = 1
+#    }
   ]
 
   agent_nodepools = [
     {
       name        = "agent-small",
-      server_type = "cpx11",
+      server_type = "cpx21",
       location    = "fsn1",
       labels      = [],
       taints      = [],
@@ -124,22 +124,22 @@ module "kube-hetzner" {
       taints      = [],
       count       = 1
     },
-    {
-      name        = "storage",
-      server_type = "cpx21",
-      location    = "fsn1",
-      # Fully optional, just a demo.
-      labels      = [
-        "node.kubernetes.io/server-usage=storage"
-      ],
-      taints      = [],
-      count       = 1
+#    {
+#      name        = "storage",
+#      server_type = "cpx21",
+#      location    = "fsn1",
+#      # Fully optional, just a demo.
+#      labels      = [
+#        "node.kubernetes.io/server-usage=storage"
+#      ],
+#      taints      = [],
+#      count       = 1
       # In the case of using Longhorn, you can use Hetzner volumes instead of using the node's own storage by specifying a value from 10 to 10000 (in GB)
       # It will create one volume per node in the nodepool, and configure Longhorn to use them.
       # Something worth noting is that Volume storage is slower than node storage, which is achieved by not mentioning longhorn_volume_size or setting it to 0.
       # So for something like DBs, you definitely want node storage, for other things like backups, volume storage is fine, and cheaper.
       # longhorn_volume_size = 20
-    }
+#    }
   ]
   # Add custom control plane configuration options here.
   # E.g to enable monitoring for etcd, proxy etc:
