@@ -17,7 +17,8 @@ limitations under the License.
 variable "cluster_name" {
   description = "prefix for cloud resources"
   type        = string
-
+  default     = "alf"
+  
   validation {
     condition     = can(regex("^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$", var.cluster_name))
     error_message = "Value of cluster_name should be lowercase and can only contain alphanumeric characters and hyphens(-)."
@@ -146,12 +147,6 @@ variable "control_plane_replicas" {
   }
 }
 
-variable "control_plane_vm_count" {
-  default     = 3
-  type        = number
-  description = "Number of control plane nodes in the cluster"
-}
-
 variable "worker_type" {
   default = "cx21"
   type    = string
@@ -164,7 +159,7 @@ variable "initial_machinedeployment_replicas" {
 }
 
 variable "cluster_autoscaler_min_replicas" {
-  default     = 0
+  default     = 1
   description = "minimum number of replicas per MachineDeployment (requires cluster-autoscaler)"
   type        = number
 }

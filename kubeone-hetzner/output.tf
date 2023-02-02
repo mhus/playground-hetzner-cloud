@@ -24,27 +24,61 @@ output "kubeone_api" {
 }
 
 output "ssh_commands" {
-  value = formatlist("ssh ${local.ssh_username}@%s", hcloud_server.control_plane.*.ipv4_address)
+  value = [
+    "ssh ${local.ssh_username}@%s", hcloud_server.control_plane_1.ipv4_address,
+    "ssh ${local.ssh_username}@%s", hcloud_server.control_plane_2.ipv4_address,
+    "ssh ${local.ssh_username}@%s", hcloud_server.control_plane_3.ipv4_address
+  ]
 }
 
 output "kubeone_hosts" {
   description = "Control plane endpoints to SSH to"
 
   value = {
-    control_plane = {
-      hostnames            = hcloud_server.control_plane.*.name
-      cluster_name         = var.cluster_name
-      cloud_provider       = "hetzner"
-      private_address      = hcloud_server_network.control_plane.*.ip
-      public_address       = hcloud_server.control_plane.*.ipv4_address
-      network_id           = hcloud_network.net.id
-      ssh_agent_socket     = var.ssh_agent_socket
-      ssh_port             = var.ssh_port
-      ssh_private_key_file = var.ssh_private_key_file
-      ssh_user             = local.ssh_username
-      ssh_hosts_keys       = var.ssh_hosts_keys
-      bastion_host_key     = var.bastion_host_key
-    }
+    control_plane = [
+        {
+          hostnames            = hcloud_server.control_plane_1.name
+          cluster_name         = var.cluster_name
+          cloud_provider       = "hetzner"
+          private_address      = hcloud_server_network.control_plane_1.ip
+          public_address       = hcloud_server.control_plane_1.ipv4_address
+          network_id           = hcloud_network.net.id
+          ssh_agent_socket     = var.ssh_agent_socket
+          ssh_port             = var.ssh_port
+          ssh_private_key_file = var.ssh_private_key_file
+          ssh_user             = local.ssh_username
+          ssh_hosts_keys       = var.ssh_hosts_keys
+          bastion_host_key     = var.bastion_host_key
+      },
+      {
+        hostnames            = hcloud_server.control_plane_2.name
+        cluster_name         = var.cluster_name
+        cloud_provider       = "hetzner"
+        private_address      = hcloud_server_network.control_plane_2.ip
+        public_address       = hcloud_server.control_plane_2.ipv4_address
+        network_id           = hcloud_network.net.id
+        ssh_agent_socket     = var.ssh_agent_socket
+        ssh_port             = var.ssh_port
+        ssh_private_key_file = var.ssh_private_key_file
+        ssh_user             = local.ssh_username
+        ssh_hosts_keys       = var.ssh_hosts_keys
+        bastion_host_key     = var.bastion_host_key
+      },
+      {
+        hostnames            = hcloud_server.control_plane_3.name
+        cluster_name         = var.cluster_name
+        cloud_provider       = "hetzner"
+        private_address      = hcloud_server_network.control_plane_3.ip
+        public_address       = hcloud_server.control_plane_3.ipv4_address
+        network_id           = hcloud_network.net.id
+        ssh_agent_socket     = var.ssh_agent_socket
+        ssh_port             = var.ssh_port
+        ssh_private_key_file = var.ssh_private_key_file
+        ssh_user             = local.ssh_username
+        ssh_hosts_keys       = var.ssh_hosts_keys
+        bastion_host_key     = var.bastion_host_key
+      }
+    ]
   }
 }
 
