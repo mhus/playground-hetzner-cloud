@@ -71,13 +71,31 @@ variable "load_balancer_disable_ipv6" {
 variable "control_plane_nodepools" {
   description = "Number of control plane nodes."
   type        = list(any)
-  default     = []
+  default     = [
+    {
+      name        = "control-plane-fsn1",
+      server_type = "cpx11",
+      location    = "fsn1",
+      labels      = [],
+      taints      = [],
+      count       = 1
+    },
+  ]
 }
 
 variable "agent_nodepools" {
   description = "Number of agent nodes."
   type        = list(any)
-  default     = []
+  default     = [
+    {
+      name        = "agent-small",
+      server_type = "cpx11",
+      location    = "fsn1",
+      labels      = [],
+      taints      = [],
+      count       = 1
+    },
+  ]
 }
 
 variable "cluster_autoscaler_image" {
@@ -101,7 +119,15 @@ variable "autoscaler_nodepools" {
     min_nodes   = number
     max_nodes   = number
   }))
-  default = []
+  default = [
+    {
+       name        = "autoscaler"
+       server_type = "cpx21" # must be same or better than the control_plane server type (regarding disk size)!
+       location    = "fsn1"
+      min_nodes   = 0
+       max_nodes   = 5
+     }
+  ]
 }
 
 variable "hetzner_ccm_version" {
