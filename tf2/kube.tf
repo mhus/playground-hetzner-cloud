@@ -26,7 +26,7 @@ module "kube-hetzner" {
   source = "kube-hetzner/kube-hetzner/hcloud"
 
   # You can optionally specify a version number
-  # version = "1.2.0"
+   version = "1.9.0"
 
   # Note that some values, notably "location" and "public_key" have no effect after initializing the cluster.
   # This is to keep Terraform from re-provisioning all nodes at once, which would lose data. If you want to update
@@ -165,20 +165,21 @@ module "kube-hetzner" {
 
   # You can refine a base domain name to be use in this form of nodename.base_domain for setting the reserve dns inside Hetzner
   # base_domain = "mycluster.example.com"
+  base_domain = "justcool.click"
 
   # Cluster Autoscaler
   # Providing at least one map for the array enables the cluster autoscaler feature, default is disabled
   # Please note that the autoscaler should not be used with initial_k3s_channel < "v1.25". So ideally lock it to "v1.25".
   # * Example below:
-  # autoscaler_nodepools = [
-  #   {
-  #     name        = "autoscaler"
-  #     server_type = "cpx21" # must be same or better than the control_plane server type (regarding disk size)!
-  #     location    = "fsn1"
-  #     min_nodes   = 0
-  #     max_nodes   = 5
-  #   }
-  # ]
+  autoscaler_nodepools = [
+     {
+       name        = "autoscaler"
+       server_type = "cpx21" # must be same or better than the control_plane server type (regarding disk size)!
+       location    = "fsn1"
+       min_nodes   = 0
+       max_nodes   = 5
+     }
+   ]
 
   # Enable etcd snapshot backups to S3 storage.
   # Just provide a map with the needed settings (according to your S3 storage provider) and backups to S3 will
@@ -375,7 +376,7 @@ module "kube-hetzner" {
   # block_icmp_ping_in = true
 
   # You can enable cert-manager (installed by Helm behind the scenes) with the following flag, the default is "true".
-  # enable_cert_manager = false
+  enable_cert_manager = true
 
   # We download OpenSUSE MicroOS from a mirror. In case it somehow does not work for you (you get a 403), you can try other mirrors.
   # You can find a working mirror at https://download.opensuse.org/tumbleweed/appliances/openSUSE-MicroOS.x86_64-OpenStack-Cloud.qcow2.mirrorlist,
